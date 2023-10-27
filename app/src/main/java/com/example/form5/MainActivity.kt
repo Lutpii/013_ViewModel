@@ -141,7 +141,7 @@ fun TampilanForm(cobaViewModel: CobaViewModel = viewModel()){
         singleLine = true,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Nama")},
+        label = { Text(text = "Username")},
         onValueChange ={
             textNama = it
         }
