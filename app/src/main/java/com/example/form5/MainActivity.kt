@@ -1,6 +1,8 @@
 package com.example.form5
 //nambah textfield dan menampilkannya di Texthasil
 //membuat scrollable
+//mengganti label text nama
+//membuat radiobutton
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -176,6 +178,13 @@ fun TampilanForm(cobaViewModel: CobaViewModel = viewModel()){
             cobaViewModel.setJenisK(it)
         }
     )
+    Text(text = "Status: ")
+    SelectStat(
+        options = jenis.map { id -> context.resources.getString(id) },
+        onSelectionChanged = {
+            cobaViewModel.setStat(it)
+        }
+    )
     OutlinedTextField(
         value = textEmail,
         singleLine = true,
@@ -188,7 +197,7 @@ fun TampilanForm(cobaViewModel: CobaViewModel = viewModel()){
     )
     Button(modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.BacaData(textNama,textTlp,textAlamat,textEmail,dataclass.sex)
+            cobaViewModel.BacaData(textNama,textTlp,textAlamat,textEmail,dataclass.sex,dataclass.stat)
         }
     ) {
         Text(
@@ -211,6 +220,36 @@ fun TampilanForm(cobaViewModel: CobaViewModel = viewModel()){
 
 @Composable
 fun SelectJK(
+    options: List<String>,
+    onSelectionChanged: (String) -> Unit = {}
+
+) {
+    var selectedValue by remember { mutableStateOf(" ") }
+
+    Column(modifier = Modifier.padding(16.dp)){
+        options.forEach{ item ->
+            Row(
+                modifier = Modifier.selectable(
+                    selected = selectedValue ==item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectionChanged(item)
+                    }
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RadioButton(selected = selectedValue == item, onClick = {
+                    selectedValue = item
+                    onSelectionChanged(item)
+                }
+                )
+                Text(item)
+            }
+        }
+    }
+}
+@Composable
+fun SelectStat(
     options: List<String>,
     onSelectionChanged: (String) -> Unit = {}
 
